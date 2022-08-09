@@ -35,6 +35,7 @@ void skip_delim(char **str, char delim)
 	while (*(*str) == delim)
 		(*str)++;
 }
+
 /**
  * _strtok - returns the next token in the string delimited
  * by the delimiters specified

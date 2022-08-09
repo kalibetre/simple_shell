@@ -11,6 +11,7 @@ int _putchar(char c)
 {
 	return (write(STDOUT_FILENO, &c, 1));
 }
+
 /**
  * _putchar_er - writes the character c to stderr
  * @c: The character to print
@@ -22,6 +23,7 @@ int _putchar_er(char c)
 {
 	return (write(STDERR_FILENO, &c, 1));
 }
+
 /**
  * _print - prints a string followed
  * @str: c-string
@@ -36,6 +38,7 @@ void _print(char *str)
 		str++;
 	}
 }
+
 /**
  * _puts - prints a string followed by a new line
  * @str: c-string
@@ -47,6 +50,7 @@ void _puts(char *str)
 	_print(str);
 	_putchar('\n');
 }
+
 /**
  * _puts_mul - prints multiple strings followed by a new line
  * @count: the number of parameters passed
@@ -66,4 +70,3 @@ void _puts_mul(int count, ...)
 	va_end(ap);
 	_putchar('\n');
 }
-

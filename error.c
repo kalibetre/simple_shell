@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * print_error - prints to the stderr
  * @shell: the current shell
@@ -17,6 +18,7 @@ void print_error(char *shell, int num, char *command, char *message)
 	write(STDERR_FILENO, message, _strlen(message));
 	write(STDERR_FILENO, "\n", 1);
 }
+
 /**
  * print_err_number - prints integer number
  * @n: number to be printed

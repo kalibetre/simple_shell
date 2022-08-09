@@ -22,6 +22,7 @@ char **str_ary_dup(char **ary, size_t start_index, size_t count)
 
 	return (dup);
 }
+
 /**
  * free_str_ary - free an array of strings
  * @ary: the array of strings to be freed
@@ -35,6 +36,7 @@ void free_str_ary(char **ary)
 
 	free(ary);
 }
+
 /**
  * str_to_ary - splits a string to an array of strings
  * @str: the string
@@ -69,6 +71,7 @@ char **str_to_ary(char *str, const char *delim, int *size)
 	ary[*size - 1] = NULL;
 	return (ary);
 }
+
 /**
  * count_tokens - gets the numer of tokens in a string
  * separated by spaces
@@ -97,4 +100,3 @@ int count_tokens(char *str, char delim)
 	}
 	return (count);
 }
-

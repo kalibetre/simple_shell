@@ -20,6 +20,7 @@ size_t _strlen(char *s)
 	}
 	return (len);
 }
+
 /**
  * _strdup - duplicates a given string
  * @str: the string to be duplicated
@@ -46,6 +47,7 @@ char *_strdup(char *str)
 	dup[i] = '\0';
 	return (dup);
 }
+
 /**
  * _strcat - concatenates src string to dest string
  * @dest: pointer to the destination string
@@ -71,6 +73,7 @@ char *_strcat(char *dest, char *src)
 
 	return (dest);
 }
+
 /**
  * _strcmp - compares two strings
  * @s1: first string
