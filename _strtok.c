@@ -24,3 +24,14 @@ int count_until_delim(char *str, const char *delim)
 	}
 	return (-1);
 }
+
+/**
+ * skip_delim - skips repeated delimiters
+ * @str: the string
+ * @delim: the delimiter to skip
+ */
+void skip_delim(char **str, char delim)
+{
+	while (*(*str) == delim)
+		(*str)++;
+}
