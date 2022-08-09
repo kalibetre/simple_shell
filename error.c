@@ -23,4 +23,19 @@ void print_error(char *shell, int num, char *command, char *message)
  *
  * Return: 0
  */
+void print_err_number(int n)
+{
+	int digit;
+	double factor = 1;
 
+	while (n / factor >= 10)
+		factor *= 10;
+
+	while (factor >= 1)
+	{
+		digit = n / factor;
+		_putchar_er(n + '0');
+		n = n - digit * factor;
+		factor /= 10;
+	}
+}
