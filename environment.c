@@ -36,3 +36,50 @@ EnvList *build_env_list(char *sh_name, char **env)
 	return (list);
 }
 
+/**
+ * _set_env - sets an environment variable
+ * @sh_name: the name of the current shell
+ * @c_args: command to be executed by the builtin
+ * @cmd_num: the line number of the command
+ * @env_ls: the environment variables
+ *
+ * Return: Nothing
+ */
+void _set_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls)
+{
+	EnvList *node, *prev;
+
+	node = _getenv(c_args[1], *env_ls, &prev);
+	if (node == NULL)
+	{
+		node = malloc(sizeof(EnvList));
+		if (node == NULL)
+		{
+			print_error(sh_name, cmd_num, c_args[0], "Failed to allocate memory");
+			return;
+		}
+		if (set_env_key_value(c_args[1], c_args[2], &node) == -1)
+		{
+			free(node);
+			print_error(sh_name, cmd_num, c_args[0], "Failed to set env variable");
+			return;
+		}
+		node->next = NULL;
+		if (env_ls == NULL)
+			*env_ls = node;
+
+		node->next = *env_ls;
+		*env_ls = node;
+	}
+	else
+	{
+		free(node->value);
+		if (set_env_value(c_args[2], &node) == -1)
+		{
+			free(node);
+			print_error(sh_name, cmd_num, c_args[0], "Failed to set env variable");
+			return;
+		}
+	}
+}
+
