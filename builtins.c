@@ -83,3 +83,55 @@ int unset_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls)
 	return (0);
 }
 
+/**
+ * _chdir - changes the current working directory
+ * @sh_name: the name of the current shell
+ * @c_args: command to be executed by the builtin
+ * @cmd_num: the line number of the command
+ * @env_ls: the environment variables
+ *
+ * Return: status of the function execution
+ */
+int _chdir(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls)
+{
+	char *old_pwd, *pwd, *dir = NULL, **env_w_args;
+	EnvList *env_dir, *prev;
+
+	if (c_args[1] == NULL)
+	{
+		env_dir = _getenv("HOME", *env_ls, &prev);
+		dir = _strdup(env_dir->value);
+	}
+	else if (_strcmp(c_args[1], "-") == 0)
+	{
+		env_dir = _getenv("OLDPWD", *env_ls, &prev);
+		if (env_dir == NULL)
+		{
+			print_error(sh_name, cmd_num, c_args[0], "OLDPWD not set");
+			return (0);
+		}
+		dir = _strdup(env_dir->value);
+	}
+	else
+		dir = _strdup(c_args[1]);
+
+	old_pwd = getcwd(NULL, 0);
+	if (chdir(dir) == -1)
+	{
+		free(old_pwd);
+		print_error(sh_name, cmd_num, c_args[0], "Unable to change directory.");
+		return (0);
+	}
+	pwd = getcwd(NULL, 0);
+
+	env_w_args = get_c_args(c_args[0], "OLDPWD", old_pwd);
+	_set_env(sh_name, env_w_args, cmd_num, env_ls);
+	free_str_ary(env_w_args);
+	env_w_args = get_c_args(c_args[0], "PWD", pwd);
+	_set_env(sh_name, env_w_args, cmd_num, env_ls);
+	free_str_ary(env_w_args);
+	free(old_pwd);
+	free(pwd);
+	free(dir);
+	return (0);
+}
