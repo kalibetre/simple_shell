@@ -35,3 +35,37 @@ void free_str_ary(char **ary)
 
 	free(ary);
 }
+/**
+ * str_to_ary - splits a string to an array of strings
+ * @str: the string
+ * @delim: the delimiter string
+ * @size: the size of the returned array
+ *
+ * Return: an array of substrings from the string
+ */
+char **str_to_ary(char *str, const char *delim, int *size)
+{
+	int i = 0;
+	char **ary;
+	char *token;
+
+	*size = count_tokens(str, delim[0]);
+	if (*size == 0)
+		return (NULL);
+	*size += 1;
+	ary = malloc(sizeof(char *) * (*size));
+	if (ary == NULL)
+		return (NULL);
+
+	token = _strtok(str, delim);
+	while (token != NULL)
+	{
+		ary[i] = _strdup(token);
+		free(token);
+		token = _strtok(NULL, delim);
+		i++;
+	}
+
+	ary[*size - 1] = NULL;
+	return (ary);
+}
