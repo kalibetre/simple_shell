@@ -22,3 +22,16 @@ char **str_ary_dup(char **ary, size_t start_index, size_t count)
 
 	return (dup);
 }
+/**
+ * free_str_ary - free an array of strings
+ * @ary: the array of strings to be freed
+ */
+void free_str_ary(char **ary)
+{
+	int i;
+
+	for (i = 0; ary[i] != NULL; i++)
+		free(ary[i]);
+
+	free(ary);
+}
