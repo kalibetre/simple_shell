@@ -36,3 +36,14 @@ void _print(char *str)
 		str++;
 	}
 }
+/**
+ * _puts - prints a string followed by a new line
+ * @str: c-string
+ *
+ * Return: void
+ */
+void _puts(char *str)
+{
+	_print(str);
+	_putchar('\n');
+}
