@@ -83,3 +83,19 @@ void _set_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls)
 	}
 }
 
+/**
+ * set_env_key_value - copies key and value to an environment variable
+ * @key: key of the environment variable
+ * @value: value of the environment variable
+ * @node: pointer to an env node
+ *
+ * Return: Nothing
+ */
+int set_env_key_value(char *key, char *value, EnvList **node)
+{
+	(*node)->key = _strdup(key);
+	if ((*node)->key == NULL)
+		return (-1);
+	return (set_env_value(value, node));
+}
+
