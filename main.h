@@ -97,4 +97,12 @@ int _strcmp(char *s1, char *s2);
 
 int _atoi(char *str);
 
+/* Built Ins */
+int (*get_builtin(char *name))(char *, char **, int, EnvList **);
+int exit_shell(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
+int print_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
+int set_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
+int unset_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
+int _chdir(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
+
 #endif
