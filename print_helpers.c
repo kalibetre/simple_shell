@@ -47,3 +47,23 @@ void _puts(char *str)
 	_print(str);
 	_putchar('\n');
 }
+/**
+ * _puts_mul - prints multiple strings followed by a new line
+ * @count: the number of parameters passed
+ *
+ * Return: void
+ */
+void _puts_mul(int count, ...)
+{
+	int i;
+	va_list ap;
+
+	va_start(ap, count);
+
+	for (i = 0; i < count; i++)
+		_print(va_arg(ap, char *));
+
+	va_end(ap);
+	_putchar('\n');
+}
+
