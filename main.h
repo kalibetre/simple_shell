@@ -105,4 +105,16 @@ int set_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
 int unset_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
 int _chdir(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
 
+/* Environment */
+EnvList *build_env_list(char *sh_name, char **env);
+void _set_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
+int set_env_key_value(char *key, char *value, EnvList **node);
+int set_env_value(char *value, EnvList **node);
+void _unset_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
+char **env_list_to_ary(EnvList *env_ls);
+void print_env_list(EnvList *list);
+void free_env_list(EnvList *list);
+EnvList *_getenv(char *key, EnvList *env_ls, EnvList **prev);
+char **get_c_args(char *shell_name, char *key, char *value);
+
 #endif
