@@ -99,3 +99,21 @@ int set_env_key_value(char *key, char *value, EnvList **node)
 	return (set_env_value(value, node));
 }
 
+/**
+ * set_env_value - sets value to an environment variable
+ * @value: value of the environment variable
+ * @node: pointer to an env node
+ *
+ * Return: Nothing
+ */
+int set_env_value(char *value, EnvList **node)
+{
+	(*node)->value = _strdup(value);
+	if ((*node)->value == NULL)
+	{
+		free((*node)->key);
+		return (-1);
+	}
+	return (0);
+}
+
