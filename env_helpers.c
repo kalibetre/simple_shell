@@ -73,3 +73,26 @@ char **env_list_to_ary(EnvList *env_ls)
 	return (env);
 }
 
+/**
+ * _getenv - finds an environment variable by key
+ * @key: the key string
+ * @env_ls: the environment list
+ * @prev: will be set to the previous node if node with a key is found
+ *
+ * Return: the node or NULL
+ */
+EnvList *_getenv(char *key, EnvList *env_ls, EnvList **prev)
+{
+	EnvList *head = env_ls;
+
+	*prev = NULL;
+	while (head != NULL)
+	{
+		if (_strcmp(head->key, key) == 0)
+			return (head);
+		*prev = head;
+		head = head->next;
+	}
+	return (NULL);
+}
+
