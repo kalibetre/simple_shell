@@ -22,3 +22,17 @@ int _putchar_er(char c)
 {
 	return (write(STDERR_FILENO, &c, 1));
 }
+/**
+ * _print - prints a string followed
+ * @str: c-string
+ *
+ * Return: Nothing
+ */
+void _print(char *str)
+{
+	while (*str != '\0')
+	{
+		_putchar(*str);
+		str++;
+	}
+}
