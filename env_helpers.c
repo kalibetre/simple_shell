@@ -96,3 +96,25 @@ EnvList *_getenv(char *key, EnvList *env_ls, EnvList **prev)
 	return (NULL);
 }
 
+/**
+ * get_c_args - constructs a null terminated array of strings
+ * @shell_name: name of the shell
+ * @key: env key
+ * @value: env value
+ *
+ * Return: pointer to the array or NULL
+ */
+char **get_c_args(char *shell_name, char *key, char *value)
+{
+	char **c_args = malloc(sizeof(char *) * 4);
+
+	if (c_args == NULL)
+		return (NULL);
+
+	c_args[0] = _strdup(shell_name);
+	c_args[1] = _strdup(key);
+	c_args[2] = _strdup(value);
+	c_args[3] = NULL;
+
+	return (c_args);
+}
