@@ -117,3 +117,32 @@ int set_env_value(char *value, EnvList **node)
 	return (0);
 }
 
+/**
+ * _unset_env - removes an environment variable
+ * @sh_name: the name of the current shell
+ * @c_args: command to be executed by the builtin
+ * @cmd_num: the line number of the command
+ * @env_ls: the environment variables
+ *
+ * Return: Nothing
+ */
+void _unset_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls)
+{
+	EnvList *node, *prev = NULL;
+
+	node = _getenv(c_args[1], *env_ls, &prev);
+	if (node == NULL)
+	{
+		print_error(sh_name, cmd_num, c_args[0], "The env variable doesn't exist.");
+		return;
+	}
+
+	if (prev == NULL)
+		*env_ls = node->next;
+	else
+		prev->next = node->next;
+
+	free(node->key);
+	free(node->value);
+	free(node);
+}
