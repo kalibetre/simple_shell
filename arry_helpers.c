@@ -69,3 +69,32 @@ char **str_to_ary(char *str, const char *delim, int *size)
 	ary[*size - 1] = NULL;
 	return (ary);
 }
+/**
+ * count_tokens - gets the numer of tokens in a string
+ * separated by spaces
+ * @str: the string
+ * @delim: the delim char
+ *
+ * Return: number of tokens
+ */
+int count_tokens(char *str, char delim)
+{
+	int count = 0;
+
+	if (str == NULL)
+		return (count);
+
+	while (*str != '\0')
+	{
+		if (*str != delim)
+		{
+			count++;
+			while (*str != delim && *str != '\0')
+				str++;
+		}
+		else
+			str++;
+	}
+	return (count);
+}
+
