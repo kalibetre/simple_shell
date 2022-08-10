@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * build_env_list - converts an array of env vars to list
+ * build_env_list - converts an array of the env vars to list
  * @sh_name: the name of the current shell
  * @env: array of environment variables
  *
