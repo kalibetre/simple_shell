@@ -16,7 +16,7 @@
  * @str: string - (malloc'ed string)
  * @next: points to the next node
  *
- * Description: singly linked list node structure
+ * Description: singly linked list of node structure
  */
 typedef struct list_t
 {
