@@ -53,9 +53,11 @@ typedef struct BuiltIn_s
 } BuiltIn;
 
 void run_shell(char **argv, char **env);
+void run_shell_non_interactive(char **argv, EnvList **env);
 int execute_input(char **argv, char *input, int cmd_num, EnvList **env_ls);
 int run_child_process(char **command, EnvList **env_ls);
-ssize_t _getline(char **line);
+ssize_t read_line(char **line);
+ssize_t read_file(char **line);
 char *_realloc(char *str, int size);
 
 /* strtok */
@@ -116,5 +118,9 @@ void print_env_list(EnvList *list);
 void free_env_list(EnvList *list);
 EnvList *_getenv(char *key, EnvList *env_ls, EnvList **prev);
 char **get_c_args(char *shell_name, char *key, char *value);
+
+/* Sign Handlers */
+void ctrl_c_handler(int n);
+void ctrl_d_handler(int i, char *command, EnvList *env);
 
 #endif
