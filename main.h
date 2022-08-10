@@ -100,7 +100,7 @@ int _strcmp(char *s1, char *s2);
 int _atoi(char *str);
 
 /* Built Ins */
-void exit_shell(char *sh_name, int cmd_num, int status, char **c_args, EnvList **env_ls);
+void exit_shell(char *, int, int, char **, EnvList **);
 int (*get_builtin(char *name))(char *, char **, int, EnvList **);
 int print_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
 int set_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);

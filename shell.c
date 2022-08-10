@@ -16,7 +16,6 @@ void run_shell(char **argv, char **env)
 	EnvList *env_ls;
 
 	env_ls = build_env_list(argv[0], env);
-
 	do {
 		cmd_num++;
 		if (isatty(STDIN_FILENO))
@@ -36,7 +35,6 @@ void run_shell(char **argv, char **env)
 			free(line);
 			continue;
 		}
-
 		c_args = str_to_ary(line, " ", &arr_size);
 		free(line);
 		if (c_args == NULL)
@@ -53,6 +51,17 @@ void run_shell(char **argv, char **env)
 }
 
 /**
+ * free_env_and_exit - free env and exit with code
+ * @exit_code: exit code
+ * @env_ls: env list
+ */
+void free_env_and_exit(int exit_code, EnvList *env_ls)
+{
+	free_env_list(env_ls);
+	exit(EXIT_SUCCESS);
+}
+
+/**
  * run_shell_non_interactive - runs a simple shell until the user exits
  * @argv: the program's argument variables
  * @env_ls: the environment variables of the shell
@@ -61,57 +70,45 @@ void run_shell(char **argv, char **env)
  */
 void run_shell_non_interactive(char **argv, EnvList **env_ls)
 {
-	int status = 0, cmd_num = 0, count, i, arr_size = 0;
-	char *line = NULL;
-	char **commands = NULL;
-	ssize_t line_len = 0;
-	char **c_args = NULL;
+	int status = 0, cmd_num = 0, count, i = 0, arr_size = 0;
+	char *line = NULL, **commands = NULL, **c_a = NULL;
 
-	line_len = read_file(&line);
-	if (line_len == 0)
+	if (read_file(&line) == 0)
 	{
 		free(line);
-		free_env_list(*env_ls);
-		exit(EXIT_SUCCESS);
+		free_env_and_exit(EXIT_SUCCESS, *env_ls);
 	}
-
 	commands = str_to_ary(line, "\n", &count);
 	free(line);
 	if (commands == NULL)
 	{
-		free_env_list(*env_ls);
 		free_str_ary(commands);
-		exit(EXIT_SUCCESS);
+		free_env_and_exit(EXIT_SUCCESS, *env_ls);
 	}
-	i = 0;
 	while (commands[i] != NULL)
 	{
-		c_args = str_to_ary(commands[i], " ", &arr_size);
+		c_a = str_to_ary(commands[i], " ", &arr_size);
 		free(commands[i]);
 		cmd_num++;
-		if (c_args == NULL)
+		if (c_a == NULL)
 		{
 			i++;
 			continue;
 		}
-
-		if (_strcmp(c_args[0], "exit") == 0)
+		if (_strcmp(c_a[0], "exit") == 0)
 		{
-			if (c_args[1] == NULL || (c_args[1] != NULL && _atoi(c_args[1]) != -1))
+			if (c_a[1] == NULL || (c_a[1] != NULL && _atoi(c_a[1]) != -1))
 				free(commands);
-			exit_shell(argv[0], cmd_num, status, c_args, env_ls);
+			exit_shell(argv[0], cmd_num, status, c_a, env_ls);
 			i++;
 			continue;
 		}
-
-		status = execute_input(argv, c_args, cmd_num, env_ls);
-		free_str_ary(c_args);
+		status = execute_input(argv, c_a, cmd_num, env_ls);
+		free_str_ary(c_a);
 		i++;
 	}
-
-	free_env_list(*env_ls);
 	free(commands);
-	exit(status);
+	free_env_and_exit(status, *env_ls);
 }
 
 /**
@@ -162,14 +159,14 @@ int execute_input(char **argv, char **c_args, int cmd_num, EnvList **env_ls)
 /**
  * run_child_process - starts a child process to execute the
  * given argument with the specified environment variables
- * @sh_name: the name of the current shell
+ * @sh_n: the name of the current shell
  * @cmd_num: the command count
  * @c_args: command to be executed by the process
  * @env_ls: the environment variables
  *
  * Return: 0 on success
  */
-int run_child_process(char *sh_name, int cmd_num, char **c_args, EnvList **env_ls)
+int run_child_process(char *sh_n, int cmd_num, char **c_args, EnvList **env_ls)
 {
 	int status = 0;
 	pid_t child_pid;
@@ -184,7 +181,7 @@ int run_child_process(char *sh_name, int cmd_num, char **c_args, EnvList **env_l
 		env = env_list_to_ary(*env_ls);
 		if (execve(c_args[0], c_args, env) == -1)
 		{
-			print_error(sh_name, cmd_num, c_args[0], "not found");
+			print_error(sh_n, cmd_num, c_args[0], "not found");
 			free_env_list(*env_ls);
 			free_str_ary(c_args);
 			free_str_ary(env);
