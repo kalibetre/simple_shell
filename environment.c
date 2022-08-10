@@ -42,13 +42,10 @@ EnvList *build_env_list(char *sh_name, char **env)
 			c_args[2] = _strdup("");
 
 		_set_env(sh_name, c_args, 1, &list);
-
 		free_str_ary(temp_env_var);
 		free_str_ary(c_args);
-
 		i++;
 	}
-
 	return (list);
 }
 
