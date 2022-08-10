@@ -27,7 +27,6 @@ void run_shell(char **argv, char **env)
 		}
 		/* line_len = _getline(&line); */
 		line_len = getline(&line, &line_cap, stdin);
-		line[line_len - 1] = '\0';
 		if (line_len <= 0)
 		{
 			if (isatty(STDIN_FILENO))
@@ -41,6 +40,7 @@ void run_shell(char **argv, char **env)
 			line = NULL;
 			continue;
 		}
+		line[line_len - 1] = '\0';
 		status = execute_input(argv, line, cmd_num, &env_ls);
 		line = NULL;
 	} while (status == 0);
