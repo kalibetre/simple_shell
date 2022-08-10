@@ -2,7 +2,7 @@
 
 /**
  * make_path - joins directory with file to make a path
- * @parent_dir: the parent directory
+ * @parent_dir: parent directory
  * @file_name: the executable file name
  *
  * Return: full file path
