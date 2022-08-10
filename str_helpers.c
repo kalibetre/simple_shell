@@ -79,7 +79,7 @@ char *_strcat(char *dest, char *src)
  * @s1: first string
  * @s2: second string
  *
- * Return: positive if s1 is greater, negative if lesser or 0
+ * Return: positive if s1 greater, negative if lesser or 0
  */
 int _strcmp(char *s1, char *s2)
 {
