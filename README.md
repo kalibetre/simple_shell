@@ -16,7 +16,7 @@
  ****
 
 ## What is the shell?
-The shell is a program that takes commands from the keyboard via the terminal, and gives them to the operating system to perform.\
+The shell is a program that takes commands from the keyboard via the terminal, and gives them to the operating system to perform.
 
 ## About this project
 This project is a simple version of the linux shell made for [ALX School] taking part of the "Low-level programming & Algorithm - Linux and Unix system programming" projects.\
@@ -33,7 +33,6 @@ It is created using the **C programming Language** and it can do many functional
 
 ## Files description
  - **AUTHORS** -> List of contributors to this repository
- - **man_1_simple_shell** -> Manual page for the simple_shell
  - **main.h** -> Header file
  - **main.c** -> main function
 	- **_atoi.c** -> converts a string to number
