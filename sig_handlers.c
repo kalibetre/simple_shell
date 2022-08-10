@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * ctrl_c_handler - ignore Ctrl-C input and prints prompt again
+ * ctrl_c_handler - ignore Ctrl-C input and prints prompt
  * @n: takes in int from signal
  */
 void ctrl_c_handler(int n)
