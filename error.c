@@ -11,10 +11,13 @@ void print_error(char *shell, int num, char *command, char *message)
 {
 	write(STDERR_FILENO, shell, _strlen(shell));
 	write(STDERR_FILENO, ": ", 2);
-	print_err_number(num);
-	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, command, _strlen(command));
-	write(STDERR_FILENO, ": ", 2);
+	if (num > 0)
+	{
+		print_err_number(num);
+		write(STDERR_FILENO, ": ", 2);
+		write(STDERR_FILENO, command, _strlen(command));
+		write(STDERR_FILENO, ": ", 2);
+	}
 	write(STDERR_FILENO, message, _strlen(message));
 	write(STDERR_FILENO, "\n", 1);
 }

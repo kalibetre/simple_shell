@@ -83,7 +83,7 @@ int execute_input(char **argv, char *input, int cmd_num, EnvList **env_ls)
 		{
 			executable = find_in_path(c_args[0], *env_ls);
 			if (executable == NULL)
-				print_error(argv[0], cmd_num, c_args[0], "not found");
+				print_error(argv[0], cmd_num, c_args[0], "No such file or directory");
 			else
 			{
 				free(c_args[0]);
