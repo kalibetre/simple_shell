@@ -44,7 +44,7 @@ void run_shell(char **argv, char **env)
 			exit_shell(argv[0], cmd_num, status, c_args, &env_ls);
 		status = execute_input(argv, c_args, cmd_num, &env_ls);
 		free_str_ary(c_args);
-	} while (status == 0);
+	} while (1);
 
 	free_env_list(env_ls);
 	exit(status);

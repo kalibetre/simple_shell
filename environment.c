@@ -10,8 +10,8 @@
 EnvList *build_env_list(char *sh_name, char **env)
 {
 	EnvList *list = NULL;
-	int i = 0;
-	char **temp_env_var = NULL, **c_args = NULL;
+	int i = 0, j, len = 0;
+	char **temp_env_var = NULL, **c_args = NULL, *eq = "=";
 	int size;
 
 	while (env[i] != NULL)
@@ -22,8 +22,24 @@ EnvList *build_env_list(char *sh_name, char **env)
 		temp_env_var = str_to_ary(env[i], "=", &size);
 		c_args[0] = _strdup("setenv");
 		c_args[1] = _strdup(temp_env_var[0]);
-		c_args[2] = _strdup(temp_env_var[1]);
 		c_args[3] = NULL;
+
+		if (size >= 3)
+		{
+			for (j = 1; temp_env_var[j] != NULL; j++)
+				len += _strlen(temp_env_var[j]);
+
+			c_args[2] = malloc(sizeof(char) * (len + (size - 3) + 1));
+			c_args[2][0] = '\0';
+			for (j = 1; temp_env_var[j] != NULL; j++)
+			{
+				c_args[2] = _strcat(c_args[2], temp_env_var[j]);
+				if (temp_env_var[j + 1] != NULL)
+					c_args[2] = _strcat(c_args[2], eq);
+			}
+		}
+		else
+			c_args[2] = _strdup("");
 
 		_set_env(sh_name, c_args, 1, &list);
 

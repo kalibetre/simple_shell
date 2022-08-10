@@ -8,11 +8,13 @@
  */
 void print_env_list(EnvList *list)
 {
-	while (list != NULL)
-	{
-		_puts_mul(3, list->key, "=", list->value);
-		list = list->next;
-	}
+	if (list->next != NULL)
+		print_env_list(list->next);
+
+	_print(list->key);
+	_print("=");
+	_print(list->value);
+	_putchar('\n');
 }
 
 /**
