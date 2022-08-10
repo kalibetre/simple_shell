@@ -73,7 +73,7 @@ char **str_to_ary(char *str, const char *delim, int *size)
 }
 
 /**
- * count_tokens - gets the numer of tokens in a string
+ * count_tokens - gets the number of tokens in a string
  * separated by spaces
  * @str: the string
  * @delim: the delim char
