@@ -12,6 +12,7 @@ void run_shell(char **argv, char **env)
 	int status = 0, cmd_num = 0;
 	char *line = NULL;
 	ssize_t line_len = 0;
+	size_t line_cap = 0;
 	EnvList *env_ls;
 
 	env_ls = build_env_list(argv[0], env);
@@ -25,7 +26,9 @@ void run_shell(char **argv, char **env)
 			fflush(stdout);
 		}
 
-		line_len = _getline(&line);
+		/* line_len = _getline(&line); */
+		line_len = getline(&line, &line_cap, stdin);
+		line[line_len - 1] = '\0';
 		if (line_len <= 0)
 		{
 			if (isatty(STDIN_FILENO))
@@ -69,18 +72,18 @@ int execute_input(char **argv, char *input, int cmd_num, EnvList **env_ls)
 	free(input);
 
 	if (c_args == NULL)
-		return (EXIT_FAILURE);
+		return (0);
 
 	builtin_func = get_builtin(c_args[0]);
 	if (builtin_func != NULL)
 		status = builtin_func(argv[0], c_args, cmd_num, env_ls);
 	else
 	{
-		if (access(c_args[0], F_OK))
+		if (access(c_args[0], F_OK) != 0)
 		{
 			executable = find_in_path(c_args[0], *env_ls);
 			if (executable == NULL)
-				print_error(argv[0], cmd_num, c_args[0], "No such file or directory");
+				print_error(argv[0], cmd_num, c_args[0], "not found");
 			else
 			{
 				free(c_args[0]);
