@@ -58,7 +58,7 @@ void run_shell(char **argv, char **env)
 void free_env_and_exit(int exit_code, EnvList *env_ls)
 {
 	free_env_list(env_ls);
-	exit(EXIT_SUCCESS);
+	exit(exit_code);
 }
 
 /**
