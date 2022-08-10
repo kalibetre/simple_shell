@@ -54,8 +54,8 @@ typedef struct BuiltIn_s
 
 void run_shell(char **argv, char **env);
 void run_shell_non_interactive(char **argv, EnvList **env);
-int execute_input(char **argv, char *input, int cmd_num, EnvList **env_ls);
-int run_child_process(char **command, EnvList **env_ls);
+int execute_input(char **argv, char **c_args, int cmd_num, EnvList **env_ls);
+int run_child_process(char *, int, char **, EnvList **);
 ssize_t read_line(char **line);
 ssize_t read_file(char **line);
 char *_realloc(char *str, int size);
@@ -100,8 +100,8 @@ int _strcmp(char *s1, char *s2);
 int _atoi(char *str);
 
 /* Built Ins */
+void exit_shell(char *sh_name, int cmd_num, int status, char **c_args, EnvList **env_ls);
 int (*get_builtin(char *name))(char *, char **, int, EnvList **);
-int exit_shell(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
 int print_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
 int set_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);
 int unset_env(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls);

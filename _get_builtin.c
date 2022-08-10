@@ -9,7 +9,6 @@
 int (*get_builtin(char *name))(char *, char * *, int, EnvList * *)
 {
 	BuiltIn builtIns[] = {
-		{"exit", exit_shell},
 		{"env", print_env},
 		{"setenv", set_env},
 		{"unsetenv", unset_env},

@@ -9,8 +9,9 @@
  */
 void run_shell(char **argv, char **env)
 {
-	int status = 0, cmd_num = 0, i;
+	int status = 0, cmd_num = 0, i, arr_size = 0;
 	char *line = NULL;
+	char **c_args = NULL;
 	ssize_t line_len = 0;
 	EnvList *env_ls;
 
@@ -35,7 +36,16 @@ void run_shell(char **argv, char **env)
 			free(line);
 			continue;
 		}
-		status = execute_input(argv, line, cmd_num, &env_ls);
+
+		c_args = str_to_ary(line, " ", &arr_size);
+		free(line);
+		if (c_args == NULL)
+			continue;
+
+		if (_strcmp(c_args[0], "exit") == 0)
+			exit_shell(argv[0], cmd_num, status, c_args, &env_ls);
+		status = execute_input(argv, c_args, cmd_num, &env_ls);
+		free_str_ary(c_args);
 	} while (status == 0);
 
 	free_env_list(env_ls);
@@ -51,10 +61,11 @@ void run_shell(char **argv, char **env)
  */
 void run_shell_non_interactive(char **argv, EnvList **env_ls)
 {
-	int status = 0, cmd_num = 0, count, i;
+	int status = 0, cmd_num = 0, count, i, arr_size = 0;
 	char *line = NULL;
 	char **commands = NULL;
 	ssize_t line_len = 0;
+	char **c_args = NULL;
 
 	line_len = read_file(&line);
 	if (line_len == 0)
@@ -74,7 +85,29 @@ void run_shell_non_interactive(char **argv, EnvList **env_ls)
 	}
 	i = 0;
 	while (commands[i] != NULL)
-		status = execute_input(argv, commands[i++], cmd_num, env_ls);
+	{
+		c_args = str_to_ary(commands[i], " ", &arr_size);
+		free(commands[i]);
+		cmd_num++;
+		if (c_args == NULL)
+		{
+			i++;
+			continue;
+		}
+
+		if (_strcmp(c_args[0], "exit") == 0)
+		{
+			if (c_args[1] == NULL || (c_args[1] != NULL && _atoi(c_args[1]) != -1))
+				free(commands);
+			exit_shell(argv[0], cmd_num, status, c_args, env_ls);
+			i++;
+			continue;
+		}
+
+		status = execute_input(argv, c_args, cmd_num, env_ls);
+		free_str_ary(c_args);
+		i++;
+	}
 
 	free_env_list(*env_ls);
 	free(commands);
@@ -84,21 +117,17 @@ void run_shell_non_interactive(char **argv, EnvList **env_ls)
 /**
  * execute_input - executes a input string
  * @argv: the arguments passed form main
- * @input: the input read from stdin
+ * @c_args: the commands
  * @cmd_num: the line number of the command
  * @env_ls: the environment variables
  *
  * Return: status of the execution result
  */
-int execute_input(char **argv, char *input, int cmd_num, EnvList **env_ls)
+int execute_input(char **argv, char **c_args, int cmd_num, EnvList **env_ls)
 {
-	char **c_args = NULL;
 	char *executable = NULL;
-	int status = 0, arr_size = 0;
+	int status = 0;
 	int (*builtin_func)(char *, char **, int, EnvList **);
-
-	c_args = str_to_ary(input, " ", &arr_size);
-	free(input);
 
 	if (c_args == NULL)
 		return (0);
@@ -112,32 +141,35 @@ int execute_input(char **argv, char *input, int cmd_num, EnvList **env_ls)
 		{
 			executable = find_in_path(c_args[0], *env_ls);
 			if (executable == NULL)
-				print_error(argv[0], cmd_num, c_args[0], "No such file or directory");
+			{
+				print_error(argv[0], cmd_num, c_args[0], "not found");
+				return (127);
+			}
 			else
 			{
 				free(c_args[0]);
 				c_args[0] = _strdup(executable);
 				free(executable);
-				status = run_child_process(c_args, env_ls);
+				status = run_child_process(argv[0], cmd_num, c_args, env_ls);
 			}
 		}
 		else
-			status = run_child_process(c_args, env_ls);
+			status = run_child_process(argv[0], cmd_num, c_args, env_ls);
 	}
-
-	free_str_ary(c_args);
 	return (status);
 }
 
 /**
  * run_child_process - starts a child process to execute the
  * given argument with the specified environment variables
+ * @sh_name: the name of the current shell
+ * @cmd_num: the command count
  * @c_args: command to be executed by the process
  * @env_ls: the environment variables
  *
  * Return: 0 on success
  */
-int run_child_process(char **c_args, EnvList **env_ls)
+int run_child_process(char *sh_name, int cmd_num, char **c_args, EnvList **env_ls)
 {
 	int status = 0;
 	pid_t child_pid;
@@ -150,7 +182,14 @@ int run_child_process(char **c_args, EnvList **env_ls)
 	if (child_pid == 0)
 	{
 		env = env_list_to_ary(*env_ls);
-		execve(c_args[0], c_args, env);
+		if (execve(c_args[0], c_args, env) == -1)
+		{
+			print_error(sh_name, cmd_num, c_args[0], "not found");
+			free_env_list(*env_ls);
+			free_str_ary(c_args);
+			free_str_ary(env);
+			_exit(127);
+		}
 		free_str_ary(env);
 	}
 	else

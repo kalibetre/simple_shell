@@ -3,26 +3,37 @@
 /**
  * exit_shell - exit's the shell
  * @sh_name: the name of the current shell
- * @c_args: command to be executed by the builtin
  * @cmd_num: the line number of the command
+ * @status: the line number of the command
+ * @c_args: command to be executed by the builtin
  * @env_ls: the environment variables
  *
  * Return: status of the function execution
  */
-int exit_shell(char *sh_name, char **c_args, int cmd_num, EnvList **env_ls)
+void exit_shell(char *sh_name, int cmd_num, int status, char **c_args, EnvList **env_ls)
 {
-	int exit_status = EXIT_SUCCESS;
-
-	(void)sh_name;
-	(void)cmd_num;
-	(void)env_ls;
+	char *msg;
+	char *i_msg = "Illegal number: ";
 
 	if (c_args[1] != NULL)
-		exit_status = _atoi(c_args[1]);
+		status = _atoi(c_args[1]);
 
-	free_str_ary(c_args);
-	free_env_list(*env_ls);
-	exit(exit_status);
+	if (status == -1)
+	{
+		msg = malloc(sizeof(char) * (_strlen(i_msg) + _strlen(c_args[1])) + 1);
+		msg[0] = '\0';
+		msg = _strcat(msg, i_msg);
+		msg = _strcat(msg, c_args[1]);
+		print_error(sh_name, cmd_num, c_args[0], msg);
+		free(msg);
+		free_str_ary(c_args);
+	}
+	else
+	{
+		free_env_list(*env_ls);
+		free_str_ary(c_args);
+		exit(status);
+	}
 }
 
 /**
