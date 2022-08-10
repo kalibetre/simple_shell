@@ -43,12 +43,7 @@ It is created using the **C programming Language** and it can do many functional
  	- **count_until_delim** -> returns the number of chars until
  	- **skip_delim** -> skips repeated delimiters
  	- **_strtok** -> returns the next token in the string delimited
- - **arry_helpers.c**
-	- **_putchar** -> prints a character
-	- **_puts** -> prints a string
-	- **_strlen** -> gives the length of a string
-	- **_strdup** -> copies a string in a newly allocated memory
-	- **concat_all** -> concatenates 3 strings in a newly allocated memory
+ 
  - **arry_helpers.c**
 	- **str_ary_dup** -> duplicates an array of strings
 	- **free_str_ary** -> free an array of strings
