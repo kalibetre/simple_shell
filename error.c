@@ -2,7 +2,7 @@
 
 /**
  * print_error - prints to the stderr
- * @shell: the current shell
+ * @shell: the current shell val
  * @num: the command count
  * @command: command that caused the error
  * @message: error message
