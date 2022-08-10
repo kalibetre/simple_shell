@@ -25,7 +25,6 @@ void run_shell(char **argv, char **env)
 			_print("#cisfun$ ");
 			fflush(stdout);
 		}
-
 		/* line_len = _getline(&line); */
 		line_len = getline(&line, &line_cap, stdin);
 		line[line_len - 1] = '\0';
@@ -36,14 +35,12 @@ void run_shell(char **argv, char **env)
 			free_env_list(env_ls);
 			exit(EXIT_SUCCESS);
 		}
-
 		if (line[0] == '\0')
 		{
 			free(line);
 			line = NULL;
 			continue;
 		}
-
 		status = execute_input(argv, line, cmd_num, &env_ls);
 		line = NULL;
 	} while (status == 0);
