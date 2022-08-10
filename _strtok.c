@@ -28,7 +28,7 @@ int count_until_delim(char *str, const char *delim)
 /**
  * skip_delim - skips repeated delimiters
  * @str: the string
- * @delim: the delimiter to skip
+ * @delim: the delimite to skip
  */
 void skip_delim(char **str, char delim)
 {
