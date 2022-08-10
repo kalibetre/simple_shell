@@ -5,7 +5,7 @@
  * @sh_nm: the name of the current shell
  * @num: the line number of the command
  * @st: the line number of the command
- * @c_ag: command to be executed by the builtin
+ * @c_ag: command to be executed the builtin
  * @env_ls: the environment variables
  *
  * Return: status of the function execution
